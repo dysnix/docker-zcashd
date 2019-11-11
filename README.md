@@ -4,5 +4,5 @@ Docker repo for [Zcash](https://github.com/zcash/zcash) - an implementation of t
 
 ## Monitoring
 
-One of the solutions for monitoring [nodes](https://github.com/kuberstack/cryptonodes-status-influxdb)
+One of the solutions for monitoring [nodes](https://github.com/dysnix/cryptonodes-status-influxdb)
 

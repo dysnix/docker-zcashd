@@ -1,15 +1,30 @@
 FROM debian:stretch-slim
-LABEL zcash_version="1.0.12"
+
+ARG USER_ID
+ARG GROUP_ID
+
+ENV ZCASH_VERSION 2.1.0
+ENV HOME /home/zcash
+
+# add user with specified (or default) user/group ids
+ENV USER_ID ${USER_ID:-1000}
+ENV GROUP_ID ${GROUP_ID:-1000}
+
+RUN groupadd -g ${GROUP_ID} zcash \
+	&& useradd -u ${USER_ID} -g zcash -s /bin/bash -m -d ${HOME} zcash
+
 RUN apt-get update && \
   apt-get upgrade -y && \
-  apt-get install -y --no-install-recommends apt-transport-https gnupg ca-certificates wget && \
+  apt-get install -y --no-install-recommends apt-transport-https gnupg ca-certificates wget gosu && \
   wget -qO - https://apt.z.cash/zcash.asc | apt-key add - && \
-  echo "deb https://apt.z.cash/ jessie main" | tee /etc/apt/sources.list.d/zcash.list && \
+  echo "deb https://apt.z.cash/ stretch main" | tee /etc/apt/sources.list.d/zcash.list && \
   apt-get update && \
-  apt-get install -y --no-install-recommends zcash && \
+  apt-get install -y --no-install-recommends zcash=$ZCASH_VERSION && \
   apt-get purge -y apt-transport-https && \
-  apt-get autoclean && \
-  mkdir -p /root/.zcash-params /root/.zcash
-RUN zcash-fetch-params
-VOLUME ["/root"]
-ENTRYPOINT ["/usr/bin/zcashd", "-printtoconsole"]
+  apt-get autoclean
+
+#RUN zcash-fetch-params
+
+COPY docker-entrypoint.sh /usr/local/bin/
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["zcashd"]
