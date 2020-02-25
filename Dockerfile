@@ -3,7 +3,7 @@ FROM debian:stretch-slim
 ARG USER_ID
 ARG GROUP_ID
 
-ENV ZCASH_VERSION 2.1.0
+ENV ZCASH_VERSION 2.1.1+1
 ENV HOME /home/zcash
 
 # add user with specified (or default) user/group ids
