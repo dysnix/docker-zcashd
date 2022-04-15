@@ -1,9 +1,9 @@
-FROM debian:stretch-slim
+FROM debian:bullseye-slim
 
 ARG USER_ID
 ARG GROUP_ID
 
-ENV ZCASH_VERSION 4.6.0+1
+ENV ZCASH_VERSION 4.6.0+2
 ENV HOME /home/zcash
 
 # add user with specified (or default) user/group ids
@@ -17,7 +17,7 @@ RUN apt-get update && \
   apt-get upgrade -y && \
   apt-get install -y --no-install-recommends apt-transport-https gnupg ca-certificates wget gosu && \
   wget -qO - https://apt.z.cash/zcash.asc | apt-key add - && \
-  echo "deb https://apt.z.cash/ stretch main" | tee /etc/apt/sources.list.d/zcash.list && \
+  echo "deb https://apt.z.cash/ bullseye main" | tee /etc/apt/sources.list.d/zcash.list && \
   apt-get update && \
   apt-get install -y --no-install-recommends zcash=$ZCASH_VERSION && \
   apt-get purge -y apt-transport-https && \
