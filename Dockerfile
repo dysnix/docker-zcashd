@@ -3,7 +3,7 @@ FROM debian:bullseye-slim
 ARG USER_ID
 ARG GROUP_ID
 
-ENV ZCASH_VERSION 5.0.0
+ENV ZCASH_VERSION 5.2.0
 ENV HOME /home/zcash
 
 # add user with specified (or default) user/group ids
